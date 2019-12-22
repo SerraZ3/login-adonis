@@ -56,7 +56,16 @@ class AuthController {
 
     return response.status(204).send({ message: "Logout confirmed" });
   }
-  async forgot({ request, response }) {}
+  async forgot({ request, response }) {
+    await Mail.send("emails.welcome", user.toJSON(), message => {
+      message
+        .to(user.email)
+        .from("<from-email>")
+        .subject("Welcome to yardstick");
+    });
+
+    return "Registered successfully";
+  }
   async remember({ request, response }) {}
   async reset({ request, response }) {}
 }
